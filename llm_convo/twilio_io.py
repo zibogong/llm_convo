@@ -12,7 +12,7 @@ from flask_sock import Sock
 import simple_websocket
 import audioop
 
-from convo.audio_input import WhisperTwilioStream
+from llm_convo.audio_input import WhisperTwilioStream
 
 
 XML_MEDIA_STREAM = """
@@ -51,6 +51,7 @@ class TwilioServer:
         @self.sock.route("/audiostream", websocket=True)
         def on_media_stream(ws):
             session = TwilioCallSession(ws, self.client, remote_host=self.remote_host, static_dir=self.static_dir)
+            print("Start media stream")
             if self.on_session is not None:
                 thread = threading.Thread(target=self.on_session, args=(session,))
                 thread.start()
